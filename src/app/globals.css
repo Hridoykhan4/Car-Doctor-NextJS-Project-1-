@@ -1,5 +1,10 @@
-  @import "tailwindcss";
- @plugin "daisyui";
- @plugin "daisyui" {
-   themes: light --default, dark, forest;
- }
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark,
+    forest;
+}
+/* @utility btn{
+  @apply rounded-full
+} */
