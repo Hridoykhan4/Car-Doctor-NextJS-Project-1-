@@ -1,5 +1,6 @@
 import { Rajdhani } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -19,7 +20,12 @@ export default function RootLayout({ children }) {
       data-theme="light"
       className={` ${rajdhani.variable} h-full antialiased`}
     >
-      <body className={`${rajdhani.className}`}>{children}</body>
+      <body className={`${rajdhani.className} min-h-full flex flex-col`}>
+        <header>
+          <Navbar></Navbar>
+        </header>
+        <main className="grow p-10">{children}</main>
+      </body>
     </html>
   );
 }

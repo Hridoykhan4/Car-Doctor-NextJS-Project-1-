@@ -1,12 +1,9 @@
-import Navbar from "@/components/Navbar";
+import ServicesSection from "./components/ServicesSection";
 
 export default function Home() {
   return (
-    <main>
-      <header>
-        <Navbar></Navbar>
-      </header>
-      
-    </main>
+    <section>
+          <ServicesSection></ServicesSection>
+    </section>
   );
 }
