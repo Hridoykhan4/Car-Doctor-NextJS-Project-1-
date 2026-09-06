@@ -33,8 +33,14 @@ const Navbar = () => {
                             {navMenu}
                         </ul>
                     </div>
-                    <Link href={'/'} className="text-xl">
-                        <Image src={"/assets/logo.svg"} width={107} height={87} alt="Car Doctor"></Image>
+                    <Link href={'/'} className="relative w-20 h-12 md:w-28 md:h-20">
+                        <Image
+                            src={"/assets/logo.svg"}
+                            alt="Car Doctor"
+                            fill
+                            className="object-contain"
+                            priority
+                        />  
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">

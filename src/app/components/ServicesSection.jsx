@@ -1,8 +1,12 @@
 import Image from 'next/image';
-import servicesData from '../../../public/services.json'; 
+import dbConnect, { collectionNamesObj } from '@/lib/dbConnect';
+import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa';
 
-const ServicesSection = () => {
-    /*  {
+const ServicesSection = async () => {
+    const services =await dbConnect(collectionNamesObj.serviceCollection).find({}).toArray();
+    console.log(services);
+       /*  {
       _id: '635a0c0b64a6d231228942ae',
       service_id: '04',
       title: 'Engine Oil Change',
@@ -36,11 +40,11 @@ const ServicesSection = () => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-10">
             {
-                servicesData.map(service => (
+                services.map(service => (
                     <div key={service._id} className="card bg-base-100 shadow-xl border border-gray-100">
                         <figure className="px-4 h-48 pt-4 relative overflow-hidden rounded-t-xl">
                             <Image
-                                fill 
+                                fill
                                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                                 src={service.img}
                                 alt={service.title}
@@ -50,7 +54,11 @@ const ServicesSection = () => {
                             <h2 className="card-title text-lg font-bold">{service.title}</h2>
                             <p className="text-sm text-gray-600">Price: ${service.price}</p>
                             <div className="card-actions justify-end mt-2">
-                                <button className="btn btn-primary btn-sm">Book Now</button>
+                                <Link href={`/services/${service._id.toString()}`}>
+                                    <button className="btn btn-ghost btn-circle text-orange-600">
+                                        <FaArrowRight />
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
