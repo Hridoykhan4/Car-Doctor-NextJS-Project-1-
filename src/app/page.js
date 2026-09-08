@@ -3,7 +3,9 @@ import ServicesSection from "./components/ServicesSection";
 export default function Home() {
   return (
     <section>
-          <ServicesSection></ServicesSection>
+      <div className="app-container">
+        <ServicesSection></ServicesSection>
+      </div>
     </section>
   );
 }

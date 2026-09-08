@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         <header>
           <Navbar></Navbar>
         </header>
-        <main className="grow p-10">{children}</main>
+        <main className="grow">{children}</main>
       </body>
     </html>
   );

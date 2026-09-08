@@ -5,6 +5,36 @@
     dark,
     forest;
 }
-/* @utility btn{
-  @apply rounded-full
-} */
+
+@plugin "daisyui/theme" {
+  name: "light";
+  --color-primary: #FF3811;
+  --color-primary-hover: #e02d09;
+  --color-dark-01: #151515;
+  --color-dark-02: #444444;
+  --color-dark-03: #737373;
+  --color-dark-07: #F3F3F3;
+}
+
+
+@layer base {
+  body {
+    background-color: #ffffff;
+    color: var(--color-dark-01);
+    font-family: var(--font-inter);
+    @apply antialiased;
+  }
+  
+  ::selection {
+    @apply bg-[var(--color-primary)]/20 text-[var(--color-primary)];
+  }
+}
+
+@layer components {
+  .app-container {
+    @apply max-w-[1480px] mx-auto px-5 sm:px-7 lg:px-10
+  }
+  .section-padding {
+    @apply py-8 md:py-16;
+  }
+}
