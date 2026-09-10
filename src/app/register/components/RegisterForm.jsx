@@ -1,24 +1,22 @@
-'use client'
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import { registerUser } from '@/app/actions/auth/registerUser';
 import SocialLogin from '@/app/login/components/SocialLogin';
 
-
 export default function RegisterForm() {
-
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
-        const email = form.email.password
+        const email = form.email.value; // Fixed bug here
         const password = form.password.value;
-        await registerUser({ name, email, password })
-    }
+
+        await registerUser({ name, email, password });
+    };
 
     return (
         <div className="w-full max-w-[600px] mx-auto p-8 md:p-16 border border-[#E8E8E8] rounded-xl bg-white shadow-xs">
-            {/* Header Title */}
             <h2 className="text-3xl md:text-4xl font-bold text-center text-[var(--color-dark-01)] mb-8">
                 Sign Up
             </h2>
@@ -52,6 +50,8 @@ export default function RegisterForm() {
                         name="email"
                         placeholder="Your email"
                         className="input input-bordered w-full h-12 px-4 rounded-lg focus:outline-[var(--color-primary)] border-[#E8E8E8]"
+                        autoComplete="off"
+                        suppressHydrationWarning
                         required
                     />
                 </div>
@@ -87,9 +87,8 @@ export default function RegisterForm() {
                     Or Sign Up with
                 </p>
 
-              <SocialLogin></SocialLogin>
+                <SocialLogin />
 
-                {/* Login Redirect Link */}
                 <p className="text-sm text-[var(--color-dark-03)]">
                     Already have an account?{' '}
                     <Link href="/login" className="text-[var(--color-primary)] font-semibold hover:underline">

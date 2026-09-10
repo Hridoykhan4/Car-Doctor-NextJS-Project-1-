@@ -8,5 +8,7 @@ export const registerUser =async payload => {
     if(!email || !password) return null;
     const user = await userCollection.findOne({email});
 
+    console.log(payload);
 
+    
 }
