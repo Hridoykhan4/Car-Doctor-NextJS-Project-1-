@@ -35,6 +35,6 @@
     @apply max-w-[1480px] mx-auto px-5 sm:px-7 lg:px-10
   }
   .section-padding {
-    @apply py-8 md:py-16;
+    @apply py-8 md:py-14;
   }
 }
