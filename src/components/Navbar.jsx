@@ -56,9 +56,18 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <div className="navbar-end">
+                        <ul className="menu menu-horizontal px-1">
+                            <li>
+                                <Link href={"/register"}>Register</Link>
+                            </li>
+                            <li>
+                                <Link href={"/login"}>Login</Link>
+                            </li>
+                        </ul>
                         <button className="btn btn-outline border-[#FF3811] text-[#FF3811] hover:bg-[#FF3811] hover:border-[#FF3811] hover:text-white">
                             Appointment
                         </button>
+
                     </div>
                 </div>
             </div>
