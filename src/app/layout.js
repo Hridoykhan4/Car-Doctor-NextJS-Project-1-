@@ -1,6 +1,8 @@
 import { Rajdhani } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import NextAuthSessionProvider from "./Providers/NextAuthSessionProvider";
+import { Toaster } from "react-hot-toast";
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -21,9 +23,11 @@ export default function RootLayout({ children }) {
       className={` ${rajdhani.variable} h-full antialiased`}
     >
       <body className={`${rajdhani.className} min-h-full flex flex-col`}>
-        <Navbar></Navbar>
-
-        <main className="grow">{children}</main>
+        <NextAuthSessionProvider>
+        <Toaster />
+          <Navbar></Navbar>
+          <main className="grow">{children}</main>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

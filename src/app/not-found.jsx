@@ -15,7 +15,7 @@ export default function NotFound() {
                 />
             </div>
 
-            {/* Action Button */}
+            {/* Action Button */}   
             <div>
                 <Link
                     href="/"
