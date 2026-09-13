@@ -20,13 +20,13 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="light"
-      className={` ${rajdhani.variable} h-full antialiased`}
+      className={` ${rajdhani.variable} h-screen antialiased`}
     >
-      <body className={`${rajdhani.className} min-h-full flex flex-col`}>
+      <body className={`${rajdhani.className} min-h-screen flex flex-col`}>
         <NextAuthSessionProvider>
         <Toaster />
           <Navbar></Navbar>
-          <main className="grow">{children}</main>
+          <main className="grow flex-1 ">{children}</main>
         </NextAuthSessionProvider>
       </body>
     </html>

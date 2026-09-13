@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import dbConnect, { collectionNamesObj } from "./dbConnect";
 
 export const authOptions = {
   providers: [
@@ -36,9 +37,33 @@ export const authOptions = {
     signIn: "/login",
   },
   callbacks: {
-    async signIn({ user, profile, email, credentials, account }) {
-      console.log({ user, profile, email, credentials, account });
-      return true
+    async signIn({ user, account }) {
+      if (account && account.provider !== "credentials") {
+        try {
+          const { providerAccountId, provider } = account;
+          const { email, name, image } = user;
+          const userCollection = dbConnect(collectionNamesObj.userCollection);
+          const isExist = await userCollection.findOne({
+            $or: [{ providerAccountId }, { email }],
+          });
+          if (!isExist) {
+            const newUser = {
+              name,
+              email,
+              image: image || null,
+              provider,
+              providerAccountId,
+              role: "user",
+              createdAt: new Date(),
+            };
+            await userCollection.insertOne(newUser);
+          }
+        } catch (err) {
+          console.error("MongoDB Insertion Error in Social Login:", err);
+          return false;
+        }
+      }
+      return true;
     },
   },
   secret: process.env.NEXT_AUTH_SECRET,
