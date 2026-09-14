@@ -1,11 +1,14 @@
-import dbConnect, { collectionNamesObj } from "@/lib/dbConnect"
+import dbConnect, { collectionNamesObj } from "@/lib/dbConnect";
 import { ObjectId } from "mongodb";
-import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 
-export const DELETE = async (req, {params}) => {
-    const bookingCollection = dbConnect(collectionNamesObj.bookingCollection);
-    const {p} = await params;
-    const query = { _id: new ObjectId(p.id)};
+export const GET = async (req, { params }) => {
+  const { id } = await params;
+  const servicesCollection = dbConnect(collectionNamesObj.serviceCollection);
+  const data = await servicesCollection.findOne({ _id: new ObjectId(id) });
+  const allServices = await servicesCollection
+    .find({}, { projection: { title: 1, _id: 1 } })
+    .toArray();
+  return NextResponse.json({ service: data, allServices });
+};
 
-    const session = await getServerSession()
-}
