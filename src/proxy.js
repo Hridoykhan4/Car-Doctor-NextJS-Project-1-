@@ -1,0 +1,19 @@
+import { getToken } from "next-auth/jwt";
+import { NextResponse } from "next/server";
+
+export const proxy = async (req) => {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXT_AUTH_SECRET,
+  });
+
+  if (token) {
+    return NextResponse.next();
+  } else {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+};
+
+export const config = {
+  matcher: ["/my-bookings", "/my-bookings/:path*", "/checkout/:path*"], 
+};

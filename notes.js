@@ -58,3 +58,47 @@ const res = await fetch(`http://localhost:3000/api/service`, {
     https://nextjs.org/learn/dashboard-app/mutating-data
     GO TO my-bookings page   
 */
+
+
+/* 
+  ************
+  Server component er kase cookies er access thake na, eijnne header() use korte hy
+*/
+
+/* 
+https://nextjs.org/docs/app/api-reference/file-conventions/proxy#matcher
+export const config = {
+  matcher: ['/about/:path*', '/dashboard/:path*'],
+}
+*/
+
+/* 
+https://next-auth.js.org/tutorials/securing-pages-and-api-routes#using-gettoken
+*/
+
+/* 
+মাল্টিপল গুগল অ্যাকাউন্ট দিয়ে লগইন করার সুবিধা দিতে চাইলে NextAuth.js-এ ২টি সহজ উপায় আছে।
+
+স্বাভাবিকভাবে গুগল ব্রাউজারের সেশন ও কুকি মনে রাখে, তাই একবার সিলেক্ট করলে পরের বার আর অ্যাকাউন্ট সিলেক্ট করার অপশন দেখায় না (সরাসরি আগের অ্যাকাউন্টেই ঢুকে যায়)।
+
+সমাধান ১: Account Select Screen বাধ্য করা (সবচেয়ে সহজ ও জনপ্রিয় উপায়)
+NextAuth-এর Google Provider কনফিগারেশনে authorization প্যারামিটার যোগ করে দিলে, প্রতিবার লগইন বাটনে ক্লিক করলে গুগল আপনাকে "Choose an account" স্ক্রিনটি দেখাবে। এতে আপনি সুবিধামতো যেকোনো গুগল অ্যাকাউন্ট বেছে নিতে পারবেন।
+
+আপনার authOptions (বা route.js) ফাইলে Google Provider-টি এভাবে আপডেট করুন:
+
+JavaScript
+import GoogleProvider from "next-auth/providers/google";
+
+export const authOptions = {
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "select_account", // 👈 এই লাইনটি প্রতিবার অ্যাকাউন্ট সিলেক্ট অপশন আনবে
+        },
+      },
+    }),
+  ],
+*/
