@@ -1,101 +1,96 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import toast from 'react-hot-toast';
-import { FaUser, FaEnvelope, FaDollarSign, FaCalendarAlt, FaPhoneAlt, FaMapMarkerAlt, FaCheckCircle, FaSpinner } from 'react-icons/fa';
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import {
+    FaUser,
+    FaEnvelope,
+    FaDollarSign,
+    FaCalendarAlt,
+    FaPhoneAlt,
+    FaMapMarkerAlt,
+    FaSave,
+    FaSpinner,
+} from "react-icons/fa";
 
-const CheckoutForm = ({ service }) => {
+const BookingUpdateForm = ({ data }) => {
     const { data: session } = useSession();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    const handleBookService = async (e) => {
+    const handleUpdateBooking = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         const form = e.target;
-        const name = session?.user?.name || form.name.value;
-        const email = session?.user?.email || form.email.value;
-        const price = service?.price;
-        const serviceTitle = service?.title;
-        const serviceId = service?._id;
         const date = form.date.value;
         const phone = form.phone.value;
         const address = form.address.value;
 
-        // Basic Front-end Validation
         if (!date || !phone || !address) {
             toast.error("Please fill in all required fields!");
             setLoading(false);
             return;
         }
 
-        const newBooking = {
-            customerName: name,
-            email,
-            price,
-            serviceTitle,
-            serviceId,
+        const bookingPayload = {
             date,
             phone,
             address,
-            status: "Pending",
-            createdAt: new Date(),
         };
 
         try {
-            const res = await fetch('http://localhost:3000/api/service', {
-                method: 'POST',
+            const res = await fetch(`/api/my-bookings/${data?._id}`, {
+                method: "PATCH",
                 headers: {
-                    'content-type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(newBooking),
+                body: JSON.stringify(bookingPayload),
             });
 
-            const data = await res.json();
+            const responseData = await res.json();
 
-
-            if (data?.insertedId) {
-                toast.success('Service booked successfully!');
-                form.reset();
-                router.push('/my-bookings');
+            if (res.ok && responseData?.modifiedCount > 0) {
+                toast.success("Booking updated successfully!");
+                router.push("/my-bookings");
+                router.refresh();
             } else {
-                toast.error('Failed to book the service. Please try again.');
+                toast.error(responseData?.message || "No changes were made or update failed.");
             }
         } catch (error) {
-            toast.error('Something went wrong!');
+            console.error("Update error:", error);
+            toast.error("Something went wrong while updating!");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <section className="my-10 px-4 sm:px-6 lg:px-8">
-            <div className="app-container bg-base-100 rounded-2xl shadow-xl border border-base-300 overflow-hidden">
-
+        <section className="app-container my-10">
+            <div className=" bg-base-100 rounded-2xl shadow-xl border border-base-200 overflow-hidden">
                 {/* Header Banner */}
                 <div className="bg-gradient-to-r from-[var(--color-dark-01)] to-[var(--color-primary)] p-6 sm:p-8 text-white">
                     <span className="text-xs uppercase tracking-widest font-bold opacity-80 block mb-1">
-                        Checkout Overview
+                        Update Booking
                     </span>
                     <h2 className="text-2xl sm:text-3xl font-extrabold">
-                        Book Service: <span className="text-(--color-primary) font-black">{service?.title}</span>
+                        Update Service: <span className="text-(--color-primary) font-black">{data?.serviceTitle || "N/A"}</span>
                     </h2>
                 </div>
 
                 {/* Form Container */}
-                <form onSubmit={handleBookService} className="p-6 sm:p-10 space-y-6">
+                <form onSubmit={handleUpdateBooking} className="p-6 sm:p-10 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        {/* Customer Name */}
+                        {/* Name */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                                 <FaUser className="text-(--color-primary)" /> Customer Name
                             </label>
                             <input
-                                defaultValue={session?.user?.name || ''}
+                                defaultValue={session?.user?.name || data?.customerName || ""}
                                 readOnly
                                 type="text"
                                 name="name"
@@ -103,13 +98,13 @@ const CheckoutForm = ({ service }) => {
                             />
                         </div>
 
-                        {/* Customer Email */}
+                        {/* Email */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                                 <FaEnvelope className="text-(--color-primary)" /> Email Address
                             </label>
                             <input
-                                defaultValue={session?.user?.email || ''}
+                                defaultValue={session?.user?.email || data?.email || ""}
                                 readOnly
                                 type="email"
                                 name="email"
@@ -117,26 +112,27 @@ const CheckoutForm = ({ service }) => {
                             />
                         </div>
 
-                        {/* Due Amount */}
+                        {/* Price */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                                 <FaDollarSign className="text-(--color-primary)" /> Due Amount
                             </label>
                             <input
                                 type="text"
-                                defaultValue={`$${service?.price || '0.00'}`}
+                                defaultValue={`$${data?.price || "0.00"}`}
                                 readOnly
                                 name="price"
                                 className="input input-bordered w-full bg-base-200 cursor-not-allowed font-bold text-(--color-primary) focus:outline-none"
                             />
                         </div>
 
-                        {/* Date Picker */}
+                        {/* Date */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                                <FaCalendarAlt className="text-(--color-primary)" /> Select Date <span className="text-red-500">*</span>
+                                <FaCalendarAlt className="text-(--color-primary)" /> Service Date <span className="text-red-500">*</span>
                             </label>
                             <input
+                                defaultValue={data?.date}
                                 required
                                 type="date"
                                 name="date"
@@ -144,16 +140,17 @@ const CheckoutForm = ({ service }) => {
                             />
                         </div>
 
-                        {/* Phone Number */}
+                        {/* Phone */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                                 <FaPhoneAlt className="text-(--color-primary)" /> Phone Number <span className="text-red-500">*</span>
                             </label>
                             <input
+                                defaultValue={data?.phone}
                                 required
                                 type="tel"
                                 name="phone"
-                                placeholder="+880 1700 000000"
+                                placeholder="Enter Phone Number"
                                 className="input input-bordered w-full focus:border-(--color-primary) focus:ring-1 focus:ring-(--color-primary) transition-all"
                             />
                         </div>
@@ -164,29 +161,37 @@ const CheckoutForm = ({ service }) => {
                                 <FaMapMarkerAlt className="text-(--color-primary)" /> Present Address <span className="text-red-500">*</span>
                             </label>
                             <input
+                                defaultValue={data?.address}
                                 required
                                 type="text"
                                 name="address"
-                                placeholder="House / Street / City"
+                                placeholder="Enter Present Address"
                                 className="input input-bordered w-full focus:border-(--color-primary) focus:ring-1 focus:ring-(--color-primary) transition-all"
                             />
                         </div>
                     </div>
 
-                    {/* Submit Button */}
-                    <div className="pt-4">
+                    {/* Action Buttons */}
+                    <div className="pt-4 flex items-center justify-end gap-4">
+                        <button
+                            type="button"
+                            onClick={() => router.back()}
+                            className="btn btn-ghost font-semibold text-gray-600 hover:bg-base-200"
+                        >
+                            Cancel
+                        </button>
                         <button
                             disabled={loading}
                             type="submit"
-                            className="btn bg-(--color-primary) hover:bg-[var(--color-primary-hover)] text-white w-full border-none font-bold text-lg h-14 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 cursor-pointer disabled:bg-gray-400"
+                            className="btn bg-(--color-primary) hover:bg-[var(--color-primary-hover)] text-white font-bold px-8 h-12 rounded-xl shadow-md transition-all flex items-center gap-2 disabled:bg-gray-400"
                         >
                             {loading ? (
                                 <>
-                                    <FaSpinner className="animate-spin text-xl" /> Confirming Order...
+                                    <FaSpinner className="animate-spin text-lg" /> Updating...
                                 </>
                             ) : (
                                 <>
-                                    <FaCheckCircle className="text-xl" /> Confirm Order
+                                    <FaSave className="text-lg" /> Save Changes
                                 </>
                             )}
                         </button>
@@ -197,4 +202,4 @@ const CheckoutForm = ({ service }) => {
     );
 };
 
-export default CheckoutForm;
+export default BookingUpdateForm;
