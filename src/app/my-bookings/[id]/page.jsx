@@ -4,7 +4,7 @@ import React from 'react'
 
 export default async function UpdateBookingPage({ params }) {
     const { id } = await params;
-    const res = await fetch(`http:localhost:3000/api/my-bookings/${id}`, {
+    const res = await fetch(`https://car-project-batch-10.vercel.app/api/my-bookings/${id}`, {
         headers: new Headers(await headers())
     });
     const data = await res.json()

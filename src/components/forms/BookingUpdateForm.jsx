@@ -42,7 +42,7 @@ const BookingUpdateForm = ({ data }) => {
         };
 
         try {
-            const res = await fetch(`/api/my-bookings/${data?._id}`, {
+            const res = await fetch(`https://car-project-batch-10.vercel.app/api/my-bookings/${data?._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
