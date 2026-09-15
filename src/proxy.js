@@ -5,6 +5,8 @@ export const proxy = async (req) => {
   const token = await getToken({
     req,
     secret: process.env.NEXT_AUTH_SECRET,
+    secureCookie: process.env.NODE_ENV === 'production' ? true : false
+
   });
 
   if (token) {

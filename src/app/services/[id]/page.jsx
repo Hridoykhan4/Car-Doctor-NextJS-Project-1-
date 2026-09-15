@@ -5,9 +5,9 @@ import { FaArrowRight, FaFileAlt } from 'react-icons/fa';
 
 export default async function ServiceDetailPage({ params }) {
     const { id } = await params;
-    const res = await fetch(`http://localhost:3000/api/service/${id}`)
+    const res = await fetch(`https://car-project-batch-10.vercel.app/api/service/${id}`)
     const { service, allServices } = await res.json()
-   
+
     // Database connection
     // const serviceCollection = dbConnect(collectionNamesObj.serviceCollection);
     // const service = await serviceCollection.findOne({ _id: new ObjectId(id) });

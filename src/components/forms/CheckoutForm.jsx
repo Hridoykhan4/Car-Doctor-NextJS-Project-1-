@@ -46,7 +46,7 @@ const CheckoutForm = ({ service }) => {
         };
 
         try {
-            const res = await fetch('http://localhost:3000/api/service', {
+            const res = await fetch('https://car-project-batch-10.vercel.app/api/service', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',

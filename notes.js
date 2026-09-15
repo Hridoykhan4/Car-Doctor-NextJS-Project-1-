@@ -1,11 +1,11 @@
 /**
  * bcrypt package use korsi jeno database e password hash kora jay, in the registeruser.js
- * 
-*/
+ *
+ */
 
 /* const fetchMyBooking = async () => {
-    const res = await fetch(`http://localhost:3000/api/service`, {
-        headers: await headers(),
+    const res = await fetch(`https://car-project-batch-10.vercel.app/api/service`, {
+        headers: new Headers(headers()),
         cache: 'no-store'
     });
     const d = await res.json();
@@ -18,16 +18,14 @@
 
  */
 
-
-
 /* 
 import MyBookingTable from '@/components/tables/MyBookingTable';
 import { headers } from 'next/headers';
 import React from 'react'
 
 const fetchMyBooking = async () => {
-    const res = await fetch(`http://localhost:3000/api/service`, {
-        headers: await headers(),
+    const res = await fetch(`https://car-project-batch-10.vercel.app/api/service`, {
+        headers: new Headers(headers()),
         cache: 'no-store'
     });
     const d = await res.json();
@@ -48,17 +46,15 @@ export default async function MyBookings() {
 
 */
 
-
 /* ArekTa main catch ase
-    api ta session use hoitese erokom request ashbe hobe 'use client' use kora component theke, kintu server e jodi amader session use korte hy, shekkhetre headers: await headers()
-const res = await fetch(`http://localhost:3000/api/service`, {
-        headers: await headers(),
+    api ta session use hoitese erokom request ashbe hobe 'use client' use kora component theke, kintu server e jodi amader session use korte hy, shekkhetre headers: new Headers(headers())
+const res = await fetch(`https://car-project-batch-10.vercel.app/api/service`, {
+        headers: new Headers(headers()),
         cache: 'no-store'
     });
     https://nextjs.org/learn/dashboard-app/mutating-data
     GO TO my-bookings page   
 */
-
 
 /* 
   ************
@@ -101,4 +97,49 @@ export const authOptions = {
       },
     }),
   ],
+*/
+
+/* 
+1. NEXT_PUBLIC_MONGODB_URI
+2. NEXTAUTH_URL
+3. NEXT_AUTH_SECRET 
+
+
+vercel --prod
+vercel env te upload local.env
+
+
+Google login er issue hobe, so env te NEXTAUTH_URL=https://car-project-batch-10.vercel.app dite hbe, 
+https://console.cloud.google.com/apis/credentials?project=learnnextjsbatch10
+https://console.cloud.google.com/auth/clients/24842554469-rekqt3ac07t5jec3pa8jnscvqngeo48m.apps.googleusercontent.com?project=learnnextjsbatch10
+Authorized JavaScript origins url2 = https://car-project-batch-10.vercel.app/
+Authorized redirect URIs https://car-project-batch-10.vercel.app/api/auth/callback/google
+
+
+Similar also  in Github
+
+export const proxy = async (req) => {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXT_AUTH_SECRET,
+    secureCookie: process.env.NODE_ENV === 'production' ? true : false
+
+  });
+ securekey true
+
+*******************
+Most important ekTa jinish
+
+headers: new Headers(headers()),
+locally kaj kore, but not in production
+headers: new Headers(headers()) eta dite hbe coz Headers cannot be modified. 
+
+Does it change anything to do headers: new Headers(headers())
+
+I wonder if internally something has changed on the getter function.
+https://github.com/vercel/next.js/discussions/63236
+********************
+
+  
+
 */
