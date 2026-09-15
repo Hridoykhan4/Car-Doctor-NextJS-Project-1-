@@ -12,7 +12,7 @@ router,refresh() call kore disi jeno UI o update hye jay
 
 const fetchMyBooking = async () => {
     const res = await fetch(`https://car-project-batch-10.vercel.app/api/service`, {
-        headers: new Headers(headers()),
+        headers: new Headers(await headers()),
         cache: 'no-store'
     });
     const d = await res.json();

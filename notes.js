@@ -5,7 +5,7 @@
 
 /* const fetchMyBooking = async () => {
     const res = await fetch(`https://car-project-batch-10.vercel.app/api/service`, {
-        headers: new Headers(headers()),
+        headers: new Headers(await headers()),
         cache: 'no-store'
     });
     const d = await res.json();
@@ -25,7 +25,7 @@ import React from 'react'
 
 const fetchMyBooking = async () => {
     const res = await fetch(`https://car-project-batch-10.vercel.app/api/service`, {
-        headers: new Headers(headers()),
+        headers: new Headers(await headers()),
         cache: 'no-store'
     });
     const d = await res.json();
@@ -47,9 +47,9 @@ export default async function MyBookings() {
 */
 
 /* ArekTa main catch ase
-    api ta session use hoitese erokom request ashbe hobe 'use client' use kora component theke, kintu server e jodi amader session use korte hy, shekkhetre headers: new Headers(headers())
+    api ta session use hoitese erokom request ashbe hobe 'use client' use kora component theke, kintu server e jodi amader session use korte hy, shekkhetre headers: new Headers(await headers())
 const res = await fetch(`https://car-project-batch-10.vercel.app/api/service`, {
-        headers: new Headers(headers()),
+        headers: new Headers(await headers()),
         cache: 'no-store'
     });
     https://nextjs.org/learn/dashboard-app/mutating-data
@@ -130,11 +130,11 @@ export const proxy = async (req) => {
 *******************
 Most important ekTa jinish
 
-headers: new Headers(headers()),
+headers: new Headers(await headers()),
 locally kaj kore, but not in production
-headers: new Headers(headers()) eta dite hbe coz Headers cannot be modified. 
+headers: new Headers(await headers()) eta dite hbe coz Headers cannot be modified. 
 
-Does it change anything to do headers: new Headers(headers())
+Does it change anything to do headers: new Headers(await headers())
 
 I wonder if internally something has changed on the getter function.
 https://github.com/vercel/next.js/discussions/63236

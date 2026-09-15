@@ -5,7 +5,7 @@ import React from 'react'
 export default async function UpdateBookingPage({ params }) {
     const { id } = await params;
     const res = await fetch(`http:localhost:3000/api/my-bookings/${id}`, {
-        headers: new Headers(headers())
+        headers: new Headers(await headers())
     });
     const data = await res.json()
     return (

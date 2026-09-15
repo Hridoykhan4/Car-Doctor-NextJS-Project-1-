@@ -179,12 +179,12 @@ const Navbar = () => {
                         </div>
 
                         {/* Appointment CTA Button */}
-                        <Link
+                        {/* <Link
                             href="/appointment"
                             className="btn bg-transparent border-[#FF3811] text-[#FF3811] hover:bg-[#FF3811] hover:border-[#FF3811] hover:text-white font-semibold text-sm md:text-base px-4 md:px-6 rounded-lg transition-all"
                         >
                             Appointment
-                        </Link>
+                        </Link> */}
                     </div>
 
                 </div>
